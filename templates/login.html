@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atlas Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="relative isolate min-h-screen overflow-hidden">
+      <div class="absolute inset-0 aurora"></div>
+      <div class="absolute -left-20 top-10 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl"></div>
+      <div class="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"></div>
+
+      <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8 lg:flex-row lg:items-center lg:gap-12">
+        <section class="mb-10 max-w-2xl lg:mb-0 lg:w-1/2">
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-cyan-100 backdrop-blur">
+            <span class="h-2 w-2 rounded-full bg-cyan-300"></span>
+            Health communication workspace
+          </div>
+          <h1 class="mt-6 max-w-xl text-4xl font-semibold tracking-tight text-white sm:text-6xl">
+            Intelligent medical chat for every care role.
+          </h1>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-300">
+            Sign in as a patient, doctor, ambulance service, or hospital service and continue the conversation in a real-time WebSocket chat.
+          </p>
+          <div class="mt-8 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+              <p class="text-sm uppercase tracking-[0.2em] text-cyan-200">Live messaging</p>
+              <p class="mt-2 text-slate-300">Fast two-way message flow using a WebSocket connection.</p>
+            </div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+              <p class="text-sm uppercase tracking-[0.2em] text-cyan-200">Role-based access</p>
+              <p class="mt-2 text-slate-300">Separate entry points for medical teams, emergency teams, and patients.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lg:w-1/2">
+          <div class="mx-auto max-w-xl rounded-[2rem] border border-white/10 bg-slate-900/70 p-8 shadow-2xl shadow-cyan-950/40 backdrop-blur-xl">
+            <div class="mb-8">
+              <p class="text-sm uppercase tracking-[0.35em] text-slate-400">Login</p>
+              <h2 class="mt-3 text-3xl font-semibold text-white">Choose your portal</h2>
+            </div>
+
+            {% if error %}
+            <div class="mb-6 rounded-2xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+              {{ error }}
+            </div>
+            {% endif %}
+
+            <form action="/login" method="post" class="space-y-6">
+              <div>
+                <label for="name" class="mb-2 block text-sm font-medium text-slate-300">Display name</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-white outline-none ring-0 transition placeholder:text-slate-500 focus:border-cyan-300/60 focus:bg-white/10"
+                  required
+                />
+              </div>
+
+              <div>
+                <span class="mb-3 block text-sm font-medium text-slate-300">Login as</span>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  {% for value, label in roles.items() %}
+                  <label class="role-card group cursor-pointer rounded-3xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-300/50 hover:bg-white/10">
+                    <input type="radio" name="role" value="{{ value }}" class="peer sr-only" {% if loop.first %}checked{% endif %} />
+                    <div class="flex items-start justify-between gap-3">
+                      <div>
+                        <p class="text-base font-medium text-white">{{ label }}</p>
+                        <p class="mt-1 text-sm text-slate-400">
+                          {% if value == 'patient' %}Personal care support{% endif %}
+                          {% if value == 'doctor' %}Clinical coordination{% endif %}
+                          {% if value == 'ambulance_service' %}Emergency response{% endif %}
+                          {% if value == 'hospital_service' %}Admission and transfers{% endif %}
+                        </p>
+                      </div>
+                      <span class="mt-1 h-5 w-5 rounded-full border border-slate-500 peer-checked:border-cyan-300 peer-checked:bg-cyan-300"></span>
+                    </div>
+                  </label>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-5 py-4 text-base font-semibold text-slate-950 transition hover:scale-[1.01] hover:shadow-lg hover:shadow-cyan-500/30"
+              >
+                Continue to workspace
+              </button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
