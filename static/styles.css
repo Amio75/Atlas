@@ -1,0 +1,155 @@
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+.aurora {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.18), transparent 24rem),
+    radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.18), transparent 20rem),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 1));
+}
+
+.message-card {
+  animation: rise 220ms ease-out;
+}
+
+.loading-orb {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  background: rgb(34, 211, 238);
+  box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.45);
+  animation: pulse-orb 1.4s ease-in-out infinite;
+}
+
+.live-agent-step {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.65rem 0.8rem;
+}
+
+.live-agent-step-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.9);
+  flex: 0 0 auto;
+}
+
+.live-agent-step.done .live-agent-step-dot {
+  background: rgba(52, 211, 153, 0.95);
+}
+
+.chat-upload-image {
+  max-height: min(24rem, 55vh);
+}
+
+.voice-active {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: rgba(34, 211, 238, 0.14);
+  color: rgb(165, 243, 252);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.18), 0 0 24px rgba(34, 211, 238, 0.12);
+}
+
+.attachment-disabled {
+  opacity: 0.72;
+}
+
+.attachment-disabled:hover {
+  opacity: 0.92;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive mobile sidebar */
+#sidebar {
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 220ms;
+}
+
+/* On small screens hide the sidebar off-canvas */
+@media (max-width: 1024px) {
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(80vw, 20rem);
+    transform: translateX(-110%);
+    z-index: 50;
+    overflow-y: auto;
+    padding-top: 1.5rem;
+    background: linear-gradient(180deg, rgba(2,6,23,0.98), rgba(2,6,23,1));
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  /* When the root has this class the sidebar is visible */
+  .has-sidebar-open #sidebar {
+    transform: translateX(0);
+  }
+
+  /* Backdrop shown when sidebar open */
+  #sidebar-backdrop {
+    display: none;
+  }
+  .has-sidebar-open #sidebar-backdrop {
+    display: block;
+  }
+
+  /* Ensure main content is beneath the sidebar/backdrop */
+  section[role="main"], section {
+    position: relative;
+    z-index: 0;
+  }
+}
+
+@keyframes pulse-orb {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 12px rgba(34, 211, 238, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .aurora {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.16), transparent 18rem),
+      radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.16), transparent 16rem),
+      linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 1));
+  }
+}
