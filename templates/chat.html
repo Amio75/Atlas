@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atlas Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="relative isolate min-h-screen overflow-hidden">
+      <div class="absolute inset-0 aurora"></div>
+      <div class="absolute inset-y-0 left-0 w-[24rem] bg-gradient-to-b from-cyan-500/10 to-transparent blur-3xl"></div>
+
+      <div class="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col lg:flex-row">
+        <aside id="sidebar" class="border-b border-white/10 bg-slate-950/70 px-4 py-5 backdrop-blur-xl sm:px-6 lg:flex lg:w-80 lg:flex-col lg:border-b-0 lg:border-r lg:px-6">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm uppercase tracking-[0.3em] text-cyan-200">Atlas</p>
+              <h1 class="mt-2 text-xl font-semibold text-white sm:text-2xl">{{ user.role_label }}</h1>
+            </div>
+            <form action="/logout" method="post">
+              <button class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:bg-white/10">
+                Log out
+              </button>
+            </form>
+          </div>
+
+          <div class="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5 lg:mt-8">
+            <p class="text-sm text-slate-400">Signed in as</p>
+            <p class="mt-2 text-lg font-medium text-white">{{ user.name }}</p>
+            <p class="mt-1 text-sm text-cyan-200">{{ user.role_label }}</p>
+          </div>
+
+          <div class="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Starter prompt</p>
+            <p class="mt-3 text-sm leading-7 text-slate-300">{{ starter_prompt }}</p>
+          </div>
+
+        </aside>
+        <!-- Mobile backdrop for sidebar -->
+        <div id="sidebar-backdrop" class="fixed inset-0 z-40 hidden bg-black/50 lg:hidden"></div>
+
+        <section class="flex h-[calc(100vh-1rem)] flex-1 flex-col lg:h-screen">
+          <header class="sticky top-0 z-10 border-b border-white/10 bg-slate-950/85 px-4 py-5 backdrop-blur-xl sm:px-6">
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <button id="sidebar-toggle" aria-controls="sidebar" aria-expanded="false" class="lg:hidden rounded-xl border border-white/10 bg-white/5 p-2 text-slate-200">
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+                <div>
+                  <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Realtime chat</p>
+                  <h2 class="mt-1 text-xl font-semibold text-white sm:text-2xl">Care coordination conversation</h2>
+                </div>
+              </div>
+              <div id="connection-pill" class="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-200 sm:px-4 sm:text-sm">
+                Connecting...
+              </div>
+            </div>
+          </header>
+
+          <div class="min-h-0 flex-1 px-4 py-5 sm:px-6 sm:py-6">
+            <div id="chat-messages" class="scrollbar-thin h-full space-y-4 overflow-y-auto pr-1 sm:space-y-6"></div>
+          </div>
+
+          <div class="sticky bottom-0 z-10 border-t border-white/10 bg-slate-950/90 px-3 py-3 backdrop-blur-xl sm:px-6 sm:py-4">
+            <div id="live-agent-status" class="mx-auto mb-3 hidden max-w-4xl rounded-[1.75rem] border border-cyan-300/20 bg-slate-900/92 p-4 shadow-2xl shadow-cyan-950/20">
+              <div class="flex items-start gap-3">
+                <div class="loading-orb mt-1"></div>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center justify-between gap-3">
+                    <p class="text-sm font-medium text-white">Working on your request</p>
+                    <span id="live-agent-phase" class="rounded-full border border-cyan-300/20 bg-cyan-400/10 px-2 py-1 text-[11px] uppercase tracking-[0.2em] text-cyan-100">
+                      waiting
+                    </span>
+                  </div>
+                  <p id="live-agent-message" class="mt-2 text-sm leading-7 text-slate-300">
+                    The assistant will show the active tool here while your request is running.
+                  </p>
+                  <div class="mt-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-400">
+                    Input is locked until the agent finishes this step.
+                  </div>
+                  <div id="live-agent-steps" class="hidden"></div>
+                </div>
+              </div>
+            </div>
+            <div id="pending-attachment-preview" class="mx-auto mb-3 hidden max-w-5xl rounded-[1.75rem] border border-cyan-300/20 bg-cyan-500/10 p-3">
+              <div class="flex items-start gap-3">
+                <img id="pending-attachment-image" alt="Pending upload preview" class="h-20 w-20 rounded-2xl object-cover" />
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm font-medium text-white">Prescription ready to send</p>
+                  <p id="pending-attachment-name" class="mt-1 truncate text-sm text-slate-300"></p>
+                  <button
+                    id="pending-attachment-remove"
+                    type="button"
+                    class="mt-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-200 transition hover:bg-white/10"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+            <form id="chat-form" class="mx-auto flex max-w-4xl flex-col gap-3 rounded-[2rem] border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-end">
+              <div class="relative flex items-end gap-2 sm:gap-3">
+                <input id="prescription-upload" type="file" accept="image/*" class="hidden" />
+                <button
+                  id="attachment-trigger"
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
+                >
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.9-9.9a4 4 0 1 1 5.66 5.66l-9.9 9.9a2 2 0 0 1-2.83-2.83l8.48-8.49" />
+                  </svg>
+                </button>
+                <div
+                  id="attachment-menu"
+                  class="pointer-events-none absolute bottom-14 left-0 z-20 w-72 translate-y-2 rounded-3xl border border-white/10 bg-slate-900/95 p-2 opacity-0 shadow-2xl shadow-cyan-950/40 transition duration-150"
+                >
+                  <button
+                    type="button"
+                    data-attachment-option="prescription"
+                    class="flex w-full items-start gap-3 rounded-2xl px-4 py-3 text-left transition hover:bg-white/5"
+                  >
+                    <span class="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-cyan-300"></span>
+                    <span>
+                      <span class="block text-sm font-medium text-white">Prescription analysis</span>
+                      <span class="mt-1 block text-xs text-slate-400">Upload now, analyze later in chat.</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex-1">
+                <label for="message-input" class="sr-only">Message</label>
+                <textarea
+                  id="message-input"
+                  rows="1"
+                  placeholder="Message Atlas..."
+                  class="min-h-[3.5rem] w-full resize-none bg-transparent px-3 py-3 text-white outline-none placeholder:text-slate-500"
+                ></textarea>
+              </div>
+
+              <div class="flex items-center gap-2 sm:w-auto">
+                <button
+                  id="voice-input-trigger"
+                  type="button"
+                  class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
+                  aria-pressed="false"
+                  title="Voice input"
+                >
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 3a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3Z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <path d="M12 19v3" />
+                    <path d="M8 22h8" />
+                  </svg>
+                </button>
+                <button
+                  id="voice-output-toggle"
+                  type="button"
+                  class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
+                  aria-pressed="false"
+                  title="Read assistant replies aloud"
+                >
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                    <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                    <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+                  </svg>
+                </button>
+                <button
+                  id="send-button"
+                  type="submit"
+                  class="rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-5 py-3 font-semibold text-slate-950 transition hover:scale-[1.01]"
+                >
+                  Send
+                </button>
+              </div>
+            </form>
+            <p id="voice-status" class="mx-auto mt-3 max-w-5xl text-sm text-slate-400">Voice controls ready when supported by your browser.</p>
+            <p id="attachment-status" class="mx-auto mt-3 max-w-5xl text-sm text-cyan-200"></p>
+            <p id="status" class="mx-auto mt-2 max-w-5xl text-sm text-slate-400">Connecting to secure message stream...</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      window.MEDIGEM_USER = {
+        name: {{ user.name | tojson }},
+        roleLabel: {{ user.role_label | tojson }},
+        uploadedImages: {{ uploaded_images | tojson }}
+      };
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
