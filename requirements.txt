@@ -1,0 +1,21 @@
+# Web framework
+flask>=3.0.0
+flask-sock>=0.7.0
+ 
+# LLM — LangChain + Google Gemini
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-google-genai>=1.0.0
+ 
+# Vision / HuggingFace — OpenAI-compatible client
+openai>=1.30.0
+ 
+# Data validation
+pydantic>=2.0.0
+ 
+# Environment variables
+python-dotenv>=1.0.0
+ 
+# Werkzeug (Flask dependency, pinned for security)
+werkzeug>=3.0.0
+ 
