@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ language }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Atlas Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <style>
+      body[data-rtl="true"] {
+        direction: rtl;
+        text-align: right;
+      }
+      body[data-rtl="true"] .ltr-flex {
+        flex-direction: row-reverse;
+      }
+    </style>
   </head>
-  <body class="min-h-screen bg-slate-950 text-slate-100">
+  <body class="min-h-screen bg-slate-950 text-slate-100" data-rtl="{% if language == 'ar' %}true{% else %}false{% endif %}">
     <main class="relative isolate min-h-screen overflow-hidden">
       <div class="absolute inset-0 aurora"></div>
       <div class="absolute inset-y-0 left-0 w-[24rem] bg-gradient-to-b from-cyan-500/10 to-transparent blur-3xl"></div>
@@ -16,24 +25,24 @@
         <aside id="sidebar" class="border-b border-white/10 bg-slate-950/70 px-4 py-5 backdrop-blur-xl sm:px-6 lg:flex lg:w-80 lg:flex-col lg:border-b-0 lg:border-r lg:px-6">
           <div class="flex items-start justify-between gap-4">
             <div>
-              <p class="text-sm uppercase tracking-[0.3em] text-cyan-200">Atlas</p>
+              <p class="text-sm uppercase tracking-[0.3em] text-cyan-200">{{ translations.sidebar.atlas }}</p>
               <h1 class="mt-2 text-xl font-semibold text-white sm:text-2xl">{{ user.role_label }}</h1>
             </div>
             <form action="/logout" method="post">
               <button class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:bg-white/10">
-                Log out
+                {{ translations.common.logout }}
               </button>
             </form>
           </div>
 
           <div class="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5 lg:mt-8">
-            <p class="text-sm text-slate-400">Signed in as</p>
+            <p class="text-sm text-slate-400">{{ translations.chat.signedInAs }}</p>
             <p class="mt-2 text-lg font-medium text-white">{{ user.name }}</p>
             <p class="mt-1 text-sm text-cyan-200">{{ user.role_label }}</p>
           </div>
 
           <div class="mt-6 rounded-3xl border border-white/10 bg-white/5 p-5">
-            <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Starter prompt</p>
+            <p class="text-sm uppercase tracking-[0.2em] text-slate-400">{{ translations.chat.starterPrompt }}</p>
             <p class="mt-3 text-sm leading-7 text-slate-300">{{ starter_prompt }}</p>
           </div>
 
@@ -51,12 +60,20 @@
                   </svg>
                 </button>
                 <div>
-                  <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Realtime chat</p>
-                  <h2 class="mt-1 text-xl font-semibold text-white sm:text-2xl">Care coordination conversation</h2>
+                  <p class="text-sm uppercase tracking-[0.25em] text-slate-400">{{ translations.chat.realtimeChat }}</p>
+                  <h2 class="mt-1 text-xl font-semibold text-white sm:text-2xl">{{ translations.chat.title }}</h2>
                 </div>
               </div>
-              <div id="connection-pill" class="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-200 sm:px-4 sm:text-sm">
-                Connecting...
+              <div class="flex items-center gap-3">
+                <!-- Language selector -->
+                <select id="language-selector" class="rounded-xl border border-white/10 bg-slate-950/70 px-3 py-2 text-sm text-slate-200 transition hover:bg-slate-900/80">
+                  {% for lang_code, lang_name in languages.items() %}
+                    <option value="{{ lang_code }}" {% if lang_code == language %}selected{% endif %}>{{ lang_name }}</option>
+                  {% endfor %}
+                </select>
+                <div id="connection-pill" class="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-200 sm:px-4 sm:text-sm">
+                  {{ translations.chat.connecting }}
+                </div>
               </div>
             </div>
           </header>
@@ -71,16 +88,16 @@
                 <div class="loading-orb mt-1"></div>
                 <div class="min-w-0 flex-1">
                   <div class="flex items-center justify-between gap-3">
-                    <p class="text-sm font-medium text-white">Working on your request</p>
+                    <p class="text-sm font-medium text-white">{{ translations.chat.workingOnRequest }}</p>
                     <span id="live-agent-phase" class="rounded-full border border-cyan-300/20 bg-cyan-400/10 px-2 py-1 text-[11px] uppercase tracking-[0.2em] text-cyan-100">
-                      waiting
+                      {{ translations.chat.waiting }}
                     </span>
                   </div>
                   <p id="live-agent-message" class="mt-2 text-sm leading-7 text-slate-300">
-                    The assistant will show the active tool here while your request is running.
+                    {{ translations.chat.assistantShowsTool }}
                   </p>
                   <div class="mt-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-400">
-                    Input is locked until the agent finishes this step.
+                    {{ translations.chat.inputLocked }}
                   </div>
                   <div id="live-agent-steps" class="hidden"></div>
                 </div>
@@ -90,14 +107,14 @@
               <div class="flex items-start gap-3">
                 <img id="pending-attachment-image" alt="Pending upload preview" class="h-20 w-20 rounded-2xl object-cover" />
                 <div class="min-w-0 flex-1">
-                  <p class="text-sm font-medium text-white">Prescription ready to send</p>
+                  <p class="text-sm font-medium text-white">{{ translations.chat.prescriptionReady }}</p>
                   <p id="pending-attachment-name" class="mt-1 truncate text-sm text-slate-300"></p>
                   <button
                     id="pending-attachment-remove"
                     type="button"
                     class="mt-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-200 transition hover:bg-white/10"
                   >
-                    Remove
+                    {{ translations.chat.remove }}
                   </button>
                 </div>
               </div>
@@ -111,6 +128,7 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                   class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
+                  title="{{ translations.chat.attachment.prescription }}"
                 >
                   <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.9-9.9a4 4 0 1 1 5.66 5.66l-9.9 9.9a2 2 0 0 1-2.83-2.83l8.48-8.49" />
@@ -127,19 +145,19 @@
                   >
                     <span class="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-cyan-300"></span>
                     <span>
-                      <span class="block text-sm font-medium text-white">Prescription analysis</span>
-                      <span class="mt-1 block text-xs text-slate-400">Upload now, analyze later in chat.</span>
+                      <span class="block text-sm font-medium text-white">{{ translations.chat.attachment.prescription }}</span>
+                      <span class="mt-1 block text-xs text-slate-400">{{ translations.chat.attachment.prescriptionDesc }}</span>
                     </span>
                   </button>
                 </div>
               </div>
 
               <div class="flex-1">
-                <label for="message-input" class="sr-only">Message</label>
+                <label for="message-input" class="sr-only">{{ translations.chat.messagePlaceholder }}</label>
                 <textarea
                   id="message-input"
                   rows="1"
-                  placeholder="Message Atlas..."
+                  placeholder="{{ translations.chat.messagePlaceholder }}"
                   class="min-h-[3.5rem] w-full resize-none bg-transparent px-3 py-3 text-white outline-none placeholder:text-slate-500"
                 ></textarea>
               </div>
@@ -150,7 +168,7 @@
                   type="button"
                   class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
                   aria-pressed="false"
-                  title="Voice input"
+                  title="{{ translations.chat.voice.startListening }}"
                 >
                   <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M12 3a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3Z" />
@@ -164,7 +182,7 @@
                   type="button"
                   class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-slate-200 transition hover:bg-white/10"
                   aria-pressed="false"
-                  title="Read assistant replies aloud"
+                  title="{{ translations.chat.voice.toggleOutput }}"
                 >
                   <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M11 5 6 9H3v6h3l5 4V5Z" />
@@ -177,7 +195,7 @@
                   type="submit"
                   class="rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 px-5 py-3 font-semibold text-slate-950 transition hover:scale-[1.01]"
                 >
-                  Send
+                  {{ translations.chat.send }}
                 </button>
               </div>
             </form>
@@ -193,9 +211,13 @@
       window.MEDIGEM_USER = {
         name: {{ user.name | tojson }},
         roleLabel: {{ user.role_label | tojson }},
-        uploadedImages: {{ uploaded_images | tojson }}
+        uploadedImages: {{ uploaded_images | tojson }},
+        language: {{ language | tojson }},
+        languages: {{ languages | tojson }},
+        translations: {{ translations | tojson }}
       };
     </script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
   </body>
 </html>
+
