@@ -21,6 +21,7 @@ from openai import OpenAI
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from werkzeug.utils import secure_filename
 
+from i18n import i18n, SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE
 
 load_dotenv()
 
@@ -188,31 +189,57 @@ def now_label() -> str:
 
 
 # ---------------------------------------------------------------------------
-# Per-user stable context ID  (the core of the persistence feature)
+# Language/i18n helpers
 # ---------------------------------------------------------------------------
 
+def get_user_language(default: str = DEFAULT_LANGUAGE) -> str:
+    """Get the user's preferred language from session or browser."""
+    # First check session
+    lang = session.get("language")
+    if lang and i18n.is_supported_language(lang):
+        return lang
+    
+    # Then check Accept-Language header
+    best_match = request.accept_languages.best_match(SUPPORTED_LANGUAGES.keys())
+    if best_match:
+        return best_match
+    
+    return default
+
+
+def set_user_language(lang_code: str) -> str:
+    """Set the user's preferred language in session."""
+    if i18n.is_supported_language(lang_code):
+        session["language"] = lang_code
+        return lang_code
+    return DEFAULT_LANGUAGE
+
+
 def get_or_create_context_id(name: str) -> str:
-    """
-    Returns a stable context ID tied to the user's name.
-
-    context_ids is a dict stored in the cookie:
-        { "Alice": "abc123", "Bob": "xyz789", ... }
-
-    Each name gets exactly one ID — minted on first login, reused forever.
-    The dict is never wiped by logout, so history survives across sessions.
-    """
-    # Always mark the session as permanent so the cookie lasts 90 days
+    """Get or create a stable context ID for a named user."""
     session.permanent = True
-
     context_ids: dict[str, str] = session.get("context_ids") or {}
     if name in context_ids:
         return context_ids[name]
 
-    # First time we see this name — mint a new permanent ID
     new_id = secrets.token_urlsafe(18)
     context_ids[name] = new_id
     session["context_ids"] = context_ids
     return new_id
+
+
+# ---------------------------------------------------------------------------
+# Per-user stable context ID  (the core of the persistence feature)
+# ---------------------------------------------------------------------------
+
+def build_welcome_message(user: dict[str, str], lang_code: str = DEFAULT_LANGUAGE) -> str:
+    """Build a multilingual welcome message."""
+    welcome_template = i18n.get_text(
+        "chat.welcome",
+        lang_code,
+        "Welcome back, {{name}}. You're in {{role}} mode. Upload an image anytime, then ask about it when you're ready."
+    )
+    return welcome_template.replace("{{name}}", user['name']).replace("{{role}}", user['role_label'])
 
 
 def ensure_thread_id() -> str:
@@ -772,23 +799,36 @@ def process_chat_message(
 @app.get("/")
 def home() -> str:
     ensure_thread_id()
+    lang = get_user_language()
     user = session.get("user")
     if user:
         return redirect(url_for("chat_page"))
-    return render_template("login.html", roles=ALLOWED_ROLES, error=None)
+    return render_template(
+        "login.html",
+        roles=ALLOWED_ROLES,
+        error=None,
+        language=lang,
+        languages=SUPPORTED_LANGUAGES,
+        translations=i18n.get_translations(lang),
+    )
 
 
 @app.post("/login")
 def login():
     name = request.form.get("name", "").strip()
     role = request.form.get("role", "")
+    lang = request.form.get("language", DEFAULT_LANGUAGE)
 
     if not name or role not in ALLOWED_ROLES:
+        lang = get_user_language()
         return (
             render_template(
                 "login.html",
                 roles=ALLOWED_ROLES,
                 error="Please enter your name and choose a valid role.",
+                language=lang,
+                languages=SUPPORTED_LANGUAGES,
+                translations=i18n.get_translations(lang),
             ),
             400,
         )
@@ -803,6 +843,9 @@ def login():
     # Restore the persistent map and mark session as permanent (90-day cookie)
     session["context_ids"] = context_ids
     session.permanent = True
+    
+    # Set the user's language preference
+    set_user_language(lang)
 
     # Resolve (or mint) the stable context ID for this user name
     thread_id = get_or_create_context_id(name)
@@ -823,19 +866,28 @@ def chat_page() -> str:
     user = session.get("user")
     if not user:
         return redirect(url_for("home"))
+    
+    lang = get_user_language()
 
-    starter_prompt = {
-        "patient": "Describe your symptoms, medications, or ask about an uploaded image.",
-        "doctor": "Paste notes, triage details, or ask to analyze an uploaded prescription.",
-        "ambulance_service": "Share incident details, handoff notes, or uploaded image questions.",
-        "hospital_service": "Share admission details, transfer notes, or uploaded image questions.",
-    }[user["role"]]
+    starter_prompt = i18n.get_text(
+        f"chat.starterPromptExamples.{user['role']}",
+        lang,
+        {
+            "patient": "Describe your symptoms, medications, or ask about an uploaded image.",
+            "doctor": "Paste notes, triage details, or ask to analyze an uploaded prescription.",
+            "ambulance_service": "Share incident details, handoff notes, or uploaded image questions.",
+            "hospital_service": "Share admission details, transfer notes, or uploaded image questions.",
+        }[user["role"]],
+    )
 
     return render_template(
         "chat.html",
         user=user,
         starter_prompt=starter_prompt,
         uploaded_images=list_uploaded_images(ensure_thread_id()),
+        language=lang,
+        languages=SUPPORTED_LANGUAGES,
+        translations=i18n.get_translations(lang),
     )
 
 
@@ -851,6 +903,40 @@ def logout():
     session.permanent = True
 
     return redirect(url_for("home"))
+
+
+@app.post("/api/language")
+def set_language():
+    """Set the user's language preference."""
+    lang = request.get_json().get("language", DEFAULT_LANGUAGE)
+    lang = set_user_language(lang)
+    return jsonify({
+        "ok": True,
+        "language": lang,
+        "languages": SUPPORTED_LANGUAGES,
+    })
+
+
+@app.get("/api/language")
+def get_language():
+    """Get current language and all translations."""
+    lang = get_user_language()
+    return jsonify({
+        "ok": True,
+        "language": lang,
+        "languages": SUPPORTED_LANGUAGES,
+        "translations": i18n.get_translations(lang),
+    })
+
+
+@app.get("/api/languages")
+def list_languages():
+    """Get all supported languages."""
+    return jsonify({
+        "ok": True,
+        "languages": SUPPORTED_LANGUAGES,
+        "default": DEFAULT_LANGUAGE,
+    })
 
 
 @app.post("/api/uploads/prescription")
@@ -927,14 +1013,12 @@ def chat_socket(ws) -> None:
         return
 
     thread_id = ensure_thread_id()
+    lang = get_user_language()
 
     ws.send(event_payload(
         "assistant",
         sender="Atlas",
-        message=(
-            f"Welcome back, {user['name']}. You're in {user['role_label']} mode. "
-            "Upload an image anytime, then ask about it when you're ready."
-        ),
+        message=build_welcome_message(user, lang),
         timestamp=now_label(),
     ))
 
@@ -980,4 +1064,4 @@ def chat_socket(ws) -> None:
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(debug=True)
