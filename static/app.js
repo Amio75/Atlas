@@ -19,8 +19,56 @@ const liveAgentPhase = document.getElementById("live-agent-phase");
 const liveAgentMessage = document.getElementById("live-agent-message");
 const liveAgentSteps = document.getElementById("live-agent-steps");
 const sendButton = document.getElementById("send-button");
-  const sidebarToggle = document.getElementById("sidebar-toggle");
-  const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+const sidebarToggle = document.getElementById("sidebar-toggle");
+const sidebarBackdrop = document.getElementById("sidebar-backdrop");
+const languageSelector = document.getElementById("language-selector");
+
+// Language and i18n helpers
+let currentTranslations = window.MEDIGEM_USER?.translations || {};
+let currentLanguage = window.MEDIGEM_USER?.language || "en";
+
+const i18nGet = (key, defaultValue = "") => {
+  const parts = key.split(".");
+  let value = currentTranslations;
+  for (const part of parts) {
+    value = value[part];
+    if (!value) return defaultValue;
+  }
+  return value;
+};
+
+const updateLanguageUI = async (newLang) => {
+  // Update language preference on server
+  try {
+    const response = await fetch('/api/language', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ language: newLang })
+    });
+    const data = await response.json();
+    if (data.ok) {
+      currentLanguage = newLang;
+      currentTranslations = data.translations || currentTranslations;
+      // Reload to apply new language throughout the UI
+      location.reload();
+    }
+  } catch (error) {
+    console.error("Failed to change language:", error);
+  }
+};
+
+// Handle language selector changes
+if (languageSelector) {
+  languageSelector.addEventListener("change", (e) => {
+    updateLanguageUI(e.target.value);
+  });
+}
+
+// Set RTL for Arabic
+if (currentLanguage === "ar") {
+  document.documentElement.dir = "rtl";
+  document.body.setAttribute("data-rtl", "true");
+}
 
 if (chatMessages && chatForm && messageInput && statusLabel) {
   const protocol = window.location.protocol === "https:" ? "wss" : "ws";
@@ -28,6 +76,17 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const speechSynthesisSupported = "speechSynthesis" in window;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+  const RECOGNITION_LANG_MAP = {
+    en: "en-US",
+    es: "es-ES",
+    fr: "fr-FR",
+    de: "de-DE",
+    zh: "zh-CN",
+    ar: "ar-SA",
+    bn: "bn-BD",
+    hi: "hi-IN",
+    ur: "ur-PK",
+  };
   let pendingAttachment = null;
   let isSendingAttachment = false;
   let voiceOutputEnabled = false;
@@ -509,7 +568,7 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
   if (recognition) {
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = "en-US";
+    recognition.lang = RECOGNITION_LANG_MAP[currentLanguage] || "en-US";
 
     recognition.addEventListener("start", () => {
       voiceInputActive = true;
