@@ -145,6 +145,26 @@ body {
   }
 }
 
+#language-selector {
+  background-color: rgba(15, 23, 42, 0.7);
+  color: #e2e8f0;
+}
+
+#language-selector option {
+  background-color: rgba(15, 23, 42, 0.95);
+  color: #e2e8f0;
+}
+
+/* Role card selected state for login */
+.role-card:has(input[type="radio"]:checked) {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: rgba(34, 211, 238, 0.15);
+}
+
+.role-card:has(input[type="radio"]:checked) p {
+  color: #e0f2fe;
+}
+
 @media (max-width: 640px) {
   .aurora {
     background:
