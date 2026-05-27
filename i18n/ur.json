@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "اردو",
+    "logout": "لاگ آؤٹ",
+    "loading": "لوڈ ہو رہا ہے...",
+    "error": "خرابی",
+    "success": "کامیاب",
+    "cancel": "منسوخ کریں",
+    "save": "محفوظ کریں",
+    "close": "بند کریں"
+  },
+  "login": {
+    "title": "Atlas لاگ ان",
+    "subtitle": "ہر دیکھ بھال کے کردار کے لیے ذہین طبی چیٹ۔",
+    "description": "ایک مریض، ڈاکٹر، ایمبولنس سروس یا ہسپتال کی سروس کے طور پر سائن ان کریں اور حقیقی وقت کے WebSocket چیٹ میں بات چیت جاری رکھیں۔",
+    "workspaceLabel": "صحت کی رابطے کی کارگاہ",
+    "displayName": "نام ظاہر کریں",
+    "displayNamePlaceholder": "اپنا نام درج کریں",
+    "loginAs": "اس طور پر لاگ ان کریں",
+    "continueButton": "کارگاہ میں جاری رکھیں",
+    "features": {
+      "liveMessaging": "لائیو میسجنگ",
+      "liveMessagingDesc": "WebSocket کنکشن کا استعمال کرتے ہوئے تیز دو طرفہ پیغام کا بہاؤ۔",
+      "roleBasedAccess": "کردار پر مبنی رسائی",
+      "roleBasedAccessDesc": "طبی ٹیموں، ایمرجنسی ٹیموں اور مریضوں کے لیے الگ الگ داخل ہونے کے نقاط۔"
+    },
+    "roles": {
+      "patient": "مریض",
+      "patientDesc": "ذاتی نگہداشت کی معاونت",
+      "doctor": "ڈاکٹر",
+      "doctorDesc": "طبی ہم آہنگی",
+      "ambulance_service": "ایمبولنس سروس",
+      "ambulanceDesc": "ایمرجنسی کا جواب",
+      "hospital_service": "ہسپتال کی سروس",
+      "hospitalDesc": "داخلہ اور منتقلی"
+    }
+  },
+  "chat": {
+    "title": "دیکھ بھال کی ہم آہنگی کی بات چیت",
+    "realtimeChat": "حقیقی وقت کی چیٹ",
+    "messagePlaceholder": "Atlas کو پیغام...",
+    "signedInAs": "اس طور پر سائن ان کیا گیا",
+    "starterPrompt": "شروع کرنے والا اشارہ",
+    "starterPromptExamples": {
+      "patient": "اپنی علامات، ادویات بیان کریں، یا اپ لوڈ کی گئی تصویر کے بارے میں پوچھیں۔",
+      "doctor": "نوٹس، ٹریاژ تفصیلات چسپاں کریں، یا اپ لوڈ کی گئی نسخہ کا تجزیہ کرنے کو کہیں۔",
+      "ambulance_service": "واقعہ کی تفصیلات، ہینڈآف نوٹس، یا اپ لوڈ کی گئی تصویر کے سوالات شیئر کریں۔",
+      "hospital_service": "داخلے کی تفصیلات، منتقلی کے نوٹس، یا اپ لوڈ کی گئی تصویر کے سوالات شیئر کریں۔"
+    },
+    "connecting": "جڑ رہا ہے...",
+    "connected": "جڑا ہوا",
+    "disconnected": "منقطع",
+    "workingOnRequest": "آپ کی درخواست پر کام کر رہے ہیں",
+    "waiting": "انتظار میں",
+    "assistantShowsTool": "آپ کی درخواست چلتے وقت معاون یہاں فعال ٹول دکھائے گا۔",
+    "inputLocked": "ایجنٹ اس مرحلے کو ختم کرنے تک ان پٹ بند ہے۔",
+    "prescriptionReady": "بھیجنے کے لیے تیار نسخہ",
+    "remove": "ہٹائیں",
+    "send": "بھیجیں",
+    "welcome": "خوش آمدید، {{name}}۔ آپ {{role}} موڈ میں ہیں۔ کسی بھی وقت ایک تصویر اپ لوڈ کریں، پھر جب چاہیں تو اس کے بارے میں پوچھیں۔",
+    "attachment": {
+      "prescription": "نسخہ تجزیہ",
+      "prescriptionDesc": "ابھی اپ لوڈ کریں، چیٹ میں بعد میں تجزیہ کریں۔"
+    },
+    "voice": {
+      "startListening": "سننا شروع کریں",
+      "stopListening": "سننا بند کریں",
+      "toggleOutput": "آواز کی پروڈکشن ٹوگل کریں",
+      "listening": "سن رہے ہیں...",
+      "processing": "پروسیسنگ...",
+      "speaking": "بول رہے ہیں...",
+      "microphoneNotAvailable": "مائیکروفون دستیاب نہیں"
+    },
+    "messages": {
+      "you": "آپ",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "نام ضروری ہے",
+    "roleRequired": "کردار ضروری ہے",
+    "invalidFile": "غلط فائل کی قسم۔ براہ کرم کوئی تصویر اپ لوڈ کریں۔",
+    "fileTooLarge": "فائل بہت بڑی ہے"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "صارف",
+    "role": "کردار"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "中文",
+    "logout": "登出",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "save": "保存",
+    "close": "关闭"
+  },
+  "login": {
+    "title": "Atlas 登录",
+    "subtitle": "为每个护理角色设计的智能医疗聊天。",
+    "description": "以患者、医生、救护车服务或医院服务身份登录，并在实时 WebSocket 聊天中继续对话。",
+    "workspaceLabel": "医疗健康通信工作区",
+    "displayName": "显示名称",
+    "displayNamePlaceholder": "请输入您的名字",
+    "loginAs": "登录身份",
+    "continueButton": "继续进入工作区",
+    "features": {
+      "liveMessaging": "实时消息",
+      "liveMessagingDesc": "通过 WebSocket 连接实现快速的双向消息流。",
+      "roleBasedAccess": "基于角色的访问",
+      "roleBasedAccessDesc": "为医疗团队、应急团队和患者提供独立的入口点。"
+    },
+    "roles": {
+      "patient": "患者",
+      "patientDesc": "个人护理支持",
+      "doctor": "医生",
+      "doctorDesc": "临床协调",
+      "ambulance_service": "救护车服务",
+      "ambulanceDesc": "应急响应",
+      "hospital_service": "医院服务",
+      "hospitalDesc": "入院和转运"
+    }
+  },
+  "chat": {
+    "title": "护理协调对话",
+    "realtimeChat": "实时聊天",
+    "messagePlaceholder": "向 Atlas 发送消息...",
+    "signedInAs": "登录身份",
+    "starterPrompt": "起始提示",
+    "starterPromptExamples": {
+      "patient": "描述您的症状、药物，或询问已上传的图像。",
+      "doctor": "粘贴笔记、分诊细节，或请求分析已上传的处方。",
+      "ambulance_service": "分享事故详情、交接说明，或关于已上传图像的问题。",
+      "hospital_service": "分享入院详情、转诊说明，或关于已上传图像的问题。"
+    },
+    "connecting": "正在连接...",
+    "connected": "已连接",
+    "disconnected": "已断开",
+    "workingOnRequest": "正在处理您的请求",
+    "waiting": "等待中",
+    "assistantShowsTool": "助手在处理您的请求时会在此处显示活跃工具。",
+    "inputLocked": "在代理完成此步骤之前，输入被锁定。",
+    "prescriptionReady": "处方已准备好发送",
+    "remove": "删除",
+    "send": "发送",
+    "welcome": "欢迎回来，{{name}}。您处于 {{role}} 模式。随时上传图片，然后在准备好时询问它。",
+    "attachment": {
+      "prescription": "处方分析",
+      "prescriptionDesc": "现在上传，稍后在聊天中分析。"
+    },
+    "voice": {
+      "startListening": "开始听取",
+      "stopListening": "停止听取",
+      "toggleOutput": "切换语音输出",
+      "listening": "正在听取...",
+      "processing": "处理中...",
+      "speaking": "正在说话...",
+      "microphoneNotAvailable": "麦克风不可用"
+    },
+    "messages": {
+      "you": "你",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "名称必填",
+    "roleRequired": "角色必填",
+    "invalidFile": "无效文件类型。请上传图像。",
+    "fileTooLarge": "文件太大"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "用户",
+    "role": "角色"
+  }
+}

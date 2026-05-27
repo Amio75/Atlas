@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "Deutsch",
+    "logout": "Abmelden",
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "close": "Schließen"
+  },
+  "login": {
+    "title": "Atlas Anmeldung",
+    "subtitle": "Intelligenter medizinischer Chat für jede Pflegerolle.",
+    "description": "Melden Sie sich als Patient, Arzt, Ambulanzdienst oder Krankenhausdienst an und setzen Sie das Gespräch in einem Echtzeit-WebSocket-Chat fort.",
+    "workspaceLabel": "Arbeitsbereich für Gesundheitskommunikation",
+    "displayName": "Anzeigename",
+    "displayNamePlaceholder": "Geben Sie Ihren Namen ein",
+    "loginAs": "Anmelden als",
+    "continueButton": "Im Arbeitsbereich fortfahren",
+    "features": {
+      "liveMessaging": "Live-Messaging",
+      "liveMessagingDesc": "Schneller bidirektionaler Nachrichtenfluss über eine WebSocket-Verbindung.",
+      "roleBasedAccess": "Rollenbasierter Zugriff",
+      "roleBasedAccessDesc": "Separate Einstiegspunkte für medizinische Teams, Notfallteams und Patienten."
+    },
+    "roles": {
+      "patient": "Patient",
+      "patientDesc": "Unterstützung bei der persönlichen Pflege",
+      "doctor": "Arzt",
+      "doctorDesc": "Klinische Koordination",
+      "ambulance_service": "Ambulanzdienst",
+      "ambulanceDesc": "Notfallmaßnahmen",
+      "hospital_service": "Krankenhausdienst",
+      "hospitalDesc": "Aufnahme und Transfers"
+    }
+  },
+  "chat": {
+    "title": "Pflegekoordinationsgespräch",
+    "realtimeChat": "Echtzeit-Chat",
+    "messagePlaceholder": "Nachricht an Atlas...",
+    "signedInAs": "Angemeldet als",
+    "starterPrompt": "Startaufforderung",
+    "starterPromptExamples": {
+      "patient": "Beschreiben Sie Ihre Symptome, Medikamente oder fragen Sie nach einem hochgeladenen Bild.",
+      "doctor": "Fügen Sie Notizen, Triage-Details ein oder bitten Sie um die Analyse eines hochgeladenen Rezepts.",
+      "ambulance_service": "Teilen Sie Vorfallsdetails, Übergabenotizen oder Fragen zu einem hochgeladenen Bild.",
+      "hospital_service": "Teilen Sie Aufnahmedetails, Verlegungsnotizen oder Fragen zu einem hochgeladenen Bild."
+    },
+    "connecting": "Verbindung wird hergestellt...",
+    "connected": "Verbunden",
+    "disconnected": "Getrennt",
+    "workingOnRequest": "Bearbeitung Ihrer Anfrage",
+    "waiting": "warten",
+    "assistantShowsTool": "Der Assistent zeigt das aktive Tool hier an, während Ihre Anfrage ausgeführt wird.",
+    "inputLocked": "Die Eingabe ist gesperrt, bis der Agent diesen Schritt abgeschlossen hat.",
+    "prescriptionReady": "Rezept sendebereit",
+    "remove": "Entfernen",
+    "send": "Senden",
+    "welcome": "Willkommen zurück, {{name}}. Sie sind im Modus {{role}}. Laden Sie jederzeit ein Bild hoch und fragen Sie danach, wenn Sie bereit sind.",
+    "attachment": {
+      "prescription": "Rezeptanalyse",
+      "prescriptionDesc": "Laden Sie jetzt hoch, analysieren Sie später im Chat."
+    },
+    "voice": {
+      "startListening": "Zum Abhören starten",
+      "stopListening": "Abhören beenden",
+      "toggleOutput": "Sprachausgabe umschalten",
+      "listening": "Abhören...",
+      "processing": "Verarbeitung...",
+      "speaking": "Sprechen...",
+      "microphoneNotAvailable": "Mikrofon nicht verfügbar"
+    },
+    "messages": {
+      "you": "Sie",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "Name ist erforderlich",
+    "roleRequired": "Rolle ist erforderlich",
+    "invalidFile": "Ungültiger Dateityp. Bitte laden Sie ein Bild hoch.",
+    "fileTooLarge": "Datei ist zu groß"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "Benutzer",
+    "role": "Rolle"
+  }
+}

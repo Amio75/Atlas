@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "हिन्दी",
+    "logout": "लॉग आउट",
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफल",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "close": "बंद करें"
+  },
+  "login": {
+    "title": "Atlas लॉगिन",
+    "subtitle": "हर देखभाल भूमिका के लिए बुद्धिमान चिकित्सा चैट।",
+    "description": "एक रोगी, डॉक्टर, एम्बुलेंस सेवा या अस्पताल सेवा के रूप में साइन इन करें और रीयल-टाइम WebSocket चैट में बातचीत जारी रखें।",
+    "workspaceLabel": "स्वास्थ्य संचार कार्यक्षेत्र",
+    "displayName": "प्रदर्शन नाम",
+    "displayNamePlaceholder": "अपना नाम दर्ज करें",
+    "loginAs": "इस रूप में लॉगिन करें",
+    "continueButton": "कार्यक्षेत्र में जारी रखें",
+    "features": {
+      "liveMessaging": "लाइव मैसेजिंग",
+      "liveMessagingDesc": "WebSocket कनेक्शन का उपयोग करके तेज़ द्विमुखी संदेश प्रवाह।",
+      "roleBasedAccess": "भूमिका-आधारित पहुंच",
+      "roleBasedAccessDesc": "चिकित्सा दलों, आपातकालीन दलों और रोगियों के लिए अलग प्रवेश बिंदु।"
+    },
+    "roles": {
+      "patient": "रोगी",
+      "patientDesc": "व्यक्तिगत देखभाल समर्थन",
+      "doctor": "डॉक्टर",
+      "doctorDesc": "नैदानिक समन्वय",
+      "ambulance_service": "एम्बुलेंस सेवा",
+      "ambulanceDesc": "आपातकालीन प्रतिक्रिया",
+      "hospital_service": "अस्पताल सेवा",
+      "hospitalDesc": "प्रवेश और स्थानांतरण"
+    }
+  },
+  "chat": {
+    "title": "देखभाल समन्वय बातचीत",
+    "realtimeChat": "रीयल-टाइम चैट",
+    "messagePlaceholder": "Atlas को संदेश...",
+    "signedInAs": "इस रूप में साइन इन किया गया",
+    "starterPrompt": "शुरुआत प्रॉम्प्ट",
+    "starterPromptExamples": {
+      "patient": "अपने लक्षण, दवाइयाँ बताएं, या अपलोड की गई छवि के बारे में पूछें।",
+      "doctor": "नोट्स, ट्रियाज विवरण पेस्ट करें, या अपलोड की गई प्रिस्क्रिप्शन का विश्लेषण पूछें।",
+      "ambulance_service": "घटना विवरण, हैंडऑफ नोट्स, या अपलोड की गई छवि के प्रश्न साझा करें।",
+      "hospital_service": "भर्ती विवरण, ट्रांसफर नोट्स, या अपलोड की गई छवि के प्रश्न साझा करें।"
+    },
+    "connecting": "कनेक्ट हो रहा है...",
+    "connected": "जुड़ा हुआ",
+    "disconnected": "डिस्कनेक्ट",
+    "workingOnRequest": "आपके अनुरोध पर काम कर रहे हैं",
+    "waiting": "प्रतीक्षा करनी",
+    "assistantShowsTool": "आपके अनुरोध के चलते सहायक यहां सक्रिय उपकरण दिखाएगा।",
+    "inputLocked": "एजेंट इस चरण को समाप्त करने तक इनपुट लॉक है।",
+    "prescriptionReady": "प्रेषण के लिए तैयार प्रेसक्रिप्शन",
+    "remove": "हटाएं",
+    "send": "भेजें",
+    "welcome": "आपका स्वागत है, {{name}}। आप {{role}} मोड में हैं। कभी भी कोई छवि अपलोड करें, फिर जब चाहें तो इसके बारे में पूछें।",
+    "attachment": {
+      "prescription": "प्रेसक्रिप्शन विश्लेषण",
+      "prescriptionDesc": "अभी अपलोड करें, चैट में बाद में विश्लेषण करें।"
+    },
+    "voice": {
+      "startListening": "सुनना शुरू करें",
+      "stopListening": "सुनना बंद करें",
+      "toggleOutput": "वॉयस आउटपुट टॉगल करें",
+      "listening": "सुन रहे हैं...",
+      "processing": "प्रसंस्करण...",
+      "speaking": "बोल रहे हैं...",
+      "microphoneNotAvailable": "माइक्रोफ़ोन उपलब्ध नहीं है"
+    },
+    "messages": {
+      "you": "आप",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "नाम आवश्यक है",
+    "roleRequired": "भूमिका आवश्यक है",
+    "invalidFile": "अमान्य फाइल प्रकार। कृपया एक छवि अपलोड करें।",
+    "fileTooLarge": "फाइल बहुत बड़ी है"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "उपयोगकर्ता",
+    "role": "भूमिका"
+  }
+}

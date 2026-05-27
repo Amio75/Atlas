@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "English",
+    "logout": "Log out",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close"
+  },
+  "login": {
+    "title": "Atlas Login",
+    "subtitle": "Intelligent medical chat for every care role.",
+    "description": "Sign in as a patient, doctor, ambulance service, or hospital service and continue the conversation in a real-time WebSocket chat.",
+    "workspaceLabel": "Health communication workspace",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "Enter your name",
+    "loginAs": "Login as",
+    "continueButton": "Continue to workspace",
+    "features": {
+      "liveMessaging": "Live messaging",
+      "liveMessagingDesc": "Fast two-way message flow using a WebSocket connection.",
+      "roleBasedAccess": "Role-based access",
+      "roleBasedAccessDesc": "Separate entry points for medical teams, emergency teams, and patients."
+    },
+    "roles": {
+      "patient": "Patient",
+      "patientDesc": "Personal care support",
+      "doctor": "Doctor",
+      "doctorDesc": "Clinical coordination",
+      "ambulance_service": "Ambulance Service",
+      "ambulanceDesc": "Emergency response",
+      "hospital_service": "Hospital Service",
+      "hospitalDesc": "Admission and transfers"
+    }
+  },
+  "chat": {
+    "title": "Care coordination conversation",
+    "realtimeChat": "Realtime chat",
+    "messagePlaceholder": "Message Atlas...",
+    "signedInAs": "Signed in as",
+    "starterPrompt": "Starter prompt",
+    "starterPromptExamples": {
+      "patient": "Describe your symptoms, medications, or ask about an uploaded image.",
+      "doctor": "Paste notes, triage details, or ask to analyze an uploaded prescription.",
+      "ambulance_service": "Share incident details, handoff notes, or uploaded image questions.",
+      "hospital_service": "Share admission details, transfer notes, or uploaded image questions."
+    },
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "workingOnRequest": "Working on your request",
+    "waiting": "waiting",
+    "assistantShowsTool": "The assistant will show the active tool here while your request is running.",
+    "inputLocked": "Input is locked until the agent finishes this step.",
+    "prescriptionReady": "Prescription ready to send",
+    "remove": "Remove",
+    "send": "Send",
+    "welcome": "Welcome back, {{name}}. You're in {{role}} mode. Upload an image anytime, then ask about it when you're ready.",
+    "attachment": {
+      "prescription": "Prescription analysis",
+      "prescriptionDesc": "Upload now, analyze later in chat."
+    },
+    "voice": {
+      "startListening": "Start listening",
+      "stopListening": "Stop listening",
+      "toggleOutput": "Toggle voice output",
+      "listening": "Listening...",
+      "processing": "Processing...",
+      "speaking": "Speaking...",
+      "microphoneNotAvailable": "Microphone not available"
+    },
+    "messages": {
+      "you": "You",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "roleRequired": "Role is required",
+    "invalidFile": "Invalid file type. Please upload an image.",
+    "fileTooLarge": "File is too large"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "User",
+    "role": "Role"
+  }
+}

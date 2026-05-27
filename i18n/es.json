@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "Español",
+    "logout": "Cerrar sesión",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar"
+  },
+  "login": {
+    "title": "Inicio de sesión en Atlas",
+    "subtitle": "Chat médico inteligente para cada rol de atención.",
+    "description": "Inicie sesión como paciente, médico, servicio de ambulancia o servicio hospitalario y continúe la conversación en un chat WebSocket en tiempo real.",
+    "workspaceLabel": "Espacio de trabajo de comunicación de salud",
+    "displayName": "Nombre de visualización",
+    "displayNamePlaceholder": "Ingrese su nombre",
+    "loginAs": "Inicie sesión como",
+    "continueButton": "Continuar al espacio de trabajo",
+    "features": {
+      "liveMessaging": "Mensajería en vivo",
+      "liveMessagingDesc": "Flujo de mensajes bidireccional rápido mediante una conexión WebSocket.",
+      "roleBasedAccess": "Acceso basado en roles",
+      "roleBasedAccessDesc": "Puntos de entrada separados para equipos médicos, equipos de emergencia y pacientes."
+    },
+    "roles": {
+      "patient": "Paciente",
+      "patientDesc": "Apoyo de cuidado personal",
+      "doctor": "Médico",
+      "doctorDesc": "Coordinación clínica",
+      "ambulance_service": "Servicio de Ambulancia",
+      "ambulanceDesc": "Respuesta de emergencia",
+      "hospital_service": "Servicio Hospitalario",
+      "hospitalDesc": "Admisión y transferencias"
+    }
+  },
+  "chat": {
+    "title": "Conversación de coordinación de atención",
+    "realtimeChat": "Chat en tiempo real",
+    "messagePlaceholder": "Enviar mensaje a Atlas...",
+    "signedInAs": "Conectado como",
+    "starterPrompt": "Indicación inicial",
+    "starterPromptExamples": {
+      "patient": "Describe tus síntomas, medicamentos o pregunta sobre una imagen cargada.",
+      "doctor": "Pega notas, detalles de triaje o pide analizar una receta cargada.",
+      "ambulance_service": "Comparte detalles del incidente, notas de traspaso o preguntas sobre una imagen cargada.",
+      "hospital_service": "Comparte detalles de admisión, notas de traslado o preguntas sobre una imagen cargada."
+    },
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "workingOnRequest": "Trabajando en su solicitud",
+    "waiting": "esperando",
+    "assistantShowsTool": "El asistente mostrará la herramienta activa aquí mientras se ejecuta su solicitud.",
+    "inputLocked": "La entrada está bloqueada hasta que el agente termine este paso.",
+    "prescriptionReady": "Receta lista para enviar",
+    "remove": "Eliminar",
+    "send": "Enviar",
+    "welcome": "Bienvenido de vuelta, {{name}}. Estás en modo {{role}}. Sube una imagen en cualquier momento, luego pregunta al respecto cuando estés listo.",
+    "attachment": {
+      "prescription": "Análisis de receta",
+      "prescriptionDesc": "Suba ahora, analice más tarde en el chat."
+    },
+    "voice": {
+      "startListening": "Comenzar a escuchar",
+      "stopListening": "Dejar de escuchar",
+      "toggleOutput": "Alternar salida de voz",
+      "listening": "Escuchando...",
+      "processing": "Procesando...",
+      "speaking": "Hablando...",
+      "microphoneNotAvailable": "Micrófono no disponible"
+    },
+    "messages": {
+      "you": "Tú",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "El nombre es requerido",
+    "roleRequired": "El rol es requerido",
+    "invalidFile": "Tipo de archivo inválido. Cargue una imagen.",
+    "fileTooLarge": "El archivo es demasiado grande"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "Usuario",
+    "role": "Rol"
+  }
+}
