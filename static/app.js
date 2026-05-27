@@ -98,6 +98,8 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
   let activeAssistantStream = null;
 
   let activeRunInProgress = false;
+  let lastFailedMessage = null;
+  let lastFailedAttachment = null;
 
   const escapeHtml = (value) =>
     String(value)
@@ -447,24 +449,50 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
     `;
   };
 
-  const buildErrorContent = ({ message, timestamp }) => {
+  const buildErrorContent = ({ timestamp }) => {
     return `
-      <article class="w-full max-w-[92%] rounded-[1.25rem] border border-rose-400/60 bg-rose-900/40 px-4 py-3 shadow-lg sm:max-w-2xl">
+      <article class="w-full max-w-[92%] rounded-[1.25rem] border border-rose-400/60 bg-rose-900/40 px-4 py-4 shadow-lg sm:max-w-2xl">
         <div class="flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-rose-100">Atlas Error</p>
+          <p class="text-sm font-medium text-rose-100">Process Interrupted</p>
           <p class="text-xs text-rose-300">${escapeHtml(timestamp || '')}</p>
         </div>
-        <p class="mt-2 text-sm leading-6 text-rose-100">${escapeHtml(message)}</p>
+        <p class="mt-3 text-sm leading-6 text-rose-100">An internal error occurred while processing your request. This has been logged and our team has been notified.</p>
+        <button class="retry-error-btn mt-4 rounded-lg bg-rose-500/30 hover:bg-rose-500/50 border border-rose-400/60 px-3 py-2 text-xs font-medium text-rose-100 transition">
+          Try Again
+        </button>
       </article>
     `;
   };
 
-  const renderErrorMessage = ({ message, timestamp }) => {
+  const renderErrorMessage = ({ timestamp }) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'message-card flex justify-start';
-    wrapper.innerHTML = buildErrorContent({ message, timestamp });
+    wrapper.innerHTML = buildErrorContent({ timestamp });
     chatMessages.appendChild(wrapper);
     scrollMessagesToBottom();
+    
+    // Attach retry handler to the button
+    const retryBtn = wrapper.querySelector('.retry-error-btn');
+    if (retryBtn) {
+      retryBtn.addEventListener('click', async () => {
+        // Re-send the last failed message and/or attachment
+        if (lastFailedMessage || lastFailedAttachment) {
+          messageInput.value = lastFailedMessage || '';
+          autoResize();
+          if (lastFailedAttachment) {
+            pendingAttachment = lastFailedAttachment;
+            if (pendingAttachmentPreview && pendingAttachmentImage && pendingAttachmentName) {
+              pendingAttachmentImage.src = lastFailedAttachment.previewUrl;
+              pendingAttachmentName.textContent = lastFailedAttachment.file.name;
+              pendingAttachmentPreview.classList.remove('hidden');
+            }
+          }
+          // Remove the error card and try submitting again
+          wrapper.remove();
+          chatForm.requestSubmit();
+        }
+      });
+    }
     return wrapper;
   };
 
@@ -673,15 +701,15 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
       if (liveAgentStatus) {
         liveAgentStatus.classList.add("hidden");
       }
-      // Show a red-bordered error card in the chat stream so it's visible
+      // Show a user-friendly error card with retry button
       try {
-        renderErrorMessage({ message: payload.message, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+        renderErrorMessage({ timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
       } catch (err) {
         // Fallback to statusLabel if rendering fails
-        statusLabel.textContent = payload.message;
+        statusLabel.textContent = "An internal error occurred. Please try again.";
       }
-      // Also update the small status pill for visibility
-      statusLabel.textContent = payload.message;
+      // Update the status pill for visibility
+      statusLabel.textContent = "Process encountered an issue. Check the chat for details.";
       return;
     }
 
@@ -735,6 +763,10 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
     if (activeRunInProgress || isSendingAttachment || (!message && !hasAttachment)) {
       return;
     }
+
+    // Store message and attachment for retry in case of error
+    lastFailedMessage = message;
+    lastFailedAttachment = pendingAttachment ? { ...pendingAttachment } : null;
 
     if (hasAttachment) {
       isSendingAttachment = true;
