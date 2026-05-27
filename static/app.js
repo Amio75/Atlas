@@ -447,6 +447,27 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
     `;
   };
 
+  const buildErrorContent = ({ message, timestamp }) => {
+    return `
+      <article class="w-full max-w-[92%] rounded-[1.25rem] border border-rose-400/60 bg-rose-900/40 px-4 py-3 shadow-lg sm:max-w-2xl">
+        <div class="flex items-center justify-between gap-4">
+          <p class="text-sm font-medium text-rose-100">Atlas Error</p>
+          <p class="text-xs text-rose-300">${escapeHtml(timestamp || '')}</p>
+        </div>
+        <p class="mt-2 text-sm leading-6 text-rose-100">${escapeHtml(message)}</p>
+      </article>
+    `;
+  };
+
+  const renderErrorMessage = ({ message, timestamp }) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'message-card flex justify-start';
+    wrapper.innerHTML = buildErrorContent({ message, timestamp });
+    chatMessages.appendChild(wrapper);
+    scrollMessagesToBottom();
+    return wrapper;
+  };
+
   const uploadPendingAttachment = async () => {
     if (!pendingAttachment) {
       return null;
@@ -652,6 +673,14 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
       if (liveAgentStatus) {
         liveAgentStatus.classList.add("hidden");
       }
+      // Show a red-bordered error card in the chat stream so it's visible
+      try {
+        renderErrorMessage({ message: payload.message, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+      } catch (err) {
+        // Fallback to statusLabel if rendering fails
+        statusLabel.textContent = payload.message;
+      }
+      // Also update the small status pill for visibility
       statusLabel.textContent = payload.message;
       return;
     }
