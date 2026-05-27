@@ -1,0 +1,90 @@
+{
+  "common": {
+    "language": "العربية",
+    "logout": "تسجيل الخروج",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "close": "إغلاق"
+  },
+  "login": {
+    "title": "تسجيل الدخول إلى Atlas",
+    "subtitle": "دردشة طبية ذكية لكل دور رعاية.",
+    "description": "قم بتسجيل الدخول كمريض أو طبيب أو خدمة إسعاف أو خدمة مستشفى واستمر في المحادثة في دردشة WebSocket في الوقت الفعلي.",
+    "workspaceLabel": "مساحة عمل الاتصالات الصحية",
+    "displayName": "اسم العرض",
+    "displayNamePlaceholder": "أدخل اسمك",
+    "loginAs": "تسجيل الدخول كـ",
+    "continueButton": "المتابعة إلى مساحة العمل",
+    "features": {
+      "liveMessaging": "المراسلة المباشرة",
+      "liveMessagingDesc": "تدفق رسائل ثنائي الاتجاه سريع باستخدام اتصال WebSocket.",
+      "roleBasedAccess": "التحكم بالوصول القائم على الأدوار",
+      "roleBasedAccessDesc": "نقاط دخول منفصلة للفريق الطبي والفريق الطارئ والمرضى."
+    },
+    "roles": {
+      "patient": "مريض",
+      "patientDesc": "دعم الرعاية الشخصية",
+      "doctor": "طبيب",
+      "doctorDesc": "التنسيق السريري",
+      "ambulance_service": "خدمة الإسعاف",
+      "ambulanceDesc": "الاستجابة للطوارئ",
+      "hospital_service": "خدمة المستشفى",
+      "hospitalDesc": "القبول والنقل"
+    }
+  },
+  "chat": {
+    "title": "محادثة تنسيق الرعاية",
+    "realtimeChat": "دردشة فورية",
+    "messagePlaceholder": "رسالة إلى Atlas...",
+    "signedInAs": "مسجل دخول باسم",
+    "starterPrompt": "النص الأولي",
+    "starterPromptExamples": {
+      "patient": "صف أعراضك أو أدويتك أو اسأل عن صورة تم تحميلها.",
+      "doctor": "ألصق الملاحظات أو تفاصيل الفرز أو اطلب تحليل وصفة طبية محملة.",
+      "ambulance_service": "شارك تفاصيل الحادث أو ملاحظات التسليم أو أسئلة حول صورة محملة.",
+      "hospital_service": "شارك تفاصيل القبول أو ملاحظات النقل أو أسئلة حول صورة محملة."
+    },
+    "connecting": "جاري الاتصال...",
+    "connected": "متصل",
+    "disconnected": "غير متصل",
+    "workingOnRequest": "جاري معالجة طلبك",
+    "waiting": "في انتظار",
+    "assistantShowsTool": "سيعرض المساعد الأداة النشطة هنا أثناء تنفيذ طلبك.",
+    "inputLocked": "الإدخال مقفول حتى ينتهي الوكيل من هذه الخطوة.",
+    "prescriptionReady": "الوصفة جاهزة للإرسال",
+    "remove": "إزالة",
+    "send": "إرسال",
+    "welcome": "مرحبًا بك مرة أخرى، {{name}}. أنت في وضع {{role}}. قم بتحميل صورة في أي وقت، ثم اسأل عنها عندما تكون جاهزًا.",
+    "attachment": {
+      "prescription": "تحليل الوصفة",
+      "prescriptionDesc": "قم بالتحميل الآن، وحلل لاحقاً في الدردشة."
+    },
+    "voice": {
+      "startListening": "ابدأ الاستماع",
+      "stopListening": "توقف عن الاستماع",
+      "toggleOutput": "تبديل مخرجات الصوت",
+      "listening": "جاري الاستماع...",
+      "processing": "جاري المعالجة...",
+      "speaking": "جاري الحديث...",
+      "microphoneNotAvailable": "الميكروفون غير متاح"
+    },
+    "messages": {
+      "you": "أنت",
+      "assistant": "Atlas"
+    }
+  },
+  "validation": {
+    "nameRequired": "الاسم مطلوب",
+    "roleRequired": "الدور مطلوب",
+    "invalidFile": "نوع ملف غير صالح. يرجى تحميل صورة.",
+    "fileTooLarge": "الملف كبير جداً"
+  },
+  "sidebar": {
+    "atlas": "Atlas",
+    "userName": "المستخدم",
+    "role": "الدور"
+  }
+}
