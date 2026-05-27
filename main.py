@@ -74,11 +74,30 @@ class VisionAnalysis(BaseModel):
     @model_validator(mode="before")
     @classmethod
     def normalize_payload(cls, value: Any) -> Any:
+        # Some vision backends return a bare list of detected items instead
+        # of a dict. Normalize that to the expected dict shape here so the
+        # Pydantic model can validate cleanly.
+        if isinstance(value, list):
+            return {
+                "items": value,
+                "medicine": bool(value),
+                "extracted_text": None,
+            }
+
         if not isinstance(value, dict):
             return value
 
         payload = dict(value)
         if "items" in payload and payload["items"] is not None:
+            # Coerce various forms of the `medicine` field to a boolean.
+            med_val = payload.get("medicine")
+            med_items = payload.get("medicine_items")
+            # If the backend mistakenly returned lists under `medicine`,
+            # treat non-empty lists as True.
+            if isinstance(med_val, list):
+                payload["medicine"] = bool(med_val)
+            else:
+                payload["medicine"] = bool(med_items or med_val)
             return payload
 
         merged_items: list[dict[str, Any]] = []
@@ -1064,4 +1083,4 @@ def chat_socket(ws) -> None:
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True)
