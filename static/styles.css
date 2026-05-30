@@ -173,3 +173,37 @@ body {
       linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 1));
   }
 }
+
+/* User manual modal styles */
+#user-manual-modal {
+  backdrop-filter: blur(6px);
+}
+#user-manual-modal[aria-hidden="false"] {
+  display: flex;
+}
+#user-manual-modal .rounded-2xl {
+  border: 1px solid rgba(255,255,255,0.04);
+}
+#manual-image {
+  max-height: 52vh;
+}
+@media (max-width: 640px) {
+  #user-manual-modal .relative.z-10 {
+    padding: 1rem;
+  }
+  #manual-image {
+    max-height: 36vh;
+  }
+  #manual-text-panel {
+    margin-top: 0.75rem;
+  }
+}
+
+/* Tiny transition for image swap */
+#manual-image {
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+#manual-image.fading {
+  opacity: 0.01;
+  transform: scale(0.98);
+}
