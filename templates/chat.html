@@ -208,16 +208,17 @@
     </main>
 
     <script>
-    <script src="{{ url_for('static', filename='manual/manual.js') }}"></script>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+      window.MEDIGEM_USER = {
         name: {{ user.name | tojson }},
         roleLabel: {{ user.role_label | tojson }},
         uploadedImages: {{ uploaded_images | tojson }},
         language: {{ language | tojson }},
         languages: {{ languages | tojson }},
-        translations: {{ translations | tojson }}
+        translations: {{ translations | tojson }},
       };
     </script>
+    <script src="{{ url_for('static', filename='manual/manual.js') }}"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
     <!-- User manual / onboarding modal -->
     <div id="user-manual-modal" class="fixed inset-0 z-50 hidden items-center justify-center px-4 py-8">
       <div id="user-manual-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
