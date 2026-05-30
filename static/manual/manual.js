@@ -19,6 +19,8 @@
   const modal = document.getElementById('user-manual-modal');
   if (!modal) return;
   const overlay = document.getElementById('user-manual-overlay');
+  const loadingState = document.getElementById('manual-loading');
+  const contentState = document.getElementById('manual-content');
   const imgEl = document.getElementById('manual-image');
   const stepTitle = document.getElementById('manual-step-title');
   const stepDesc = document.getElementById('manual-step-desc');
@@ -31,6 +33,25 @@
   let slides = [];
   let idx = 0;
 
+  const preloadImage = (src) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(src);
+      img.onerror = () => resolve(src); // resolve even on error to avoid blocking
+      img.src = src;
+    });
+  };
+
+  const showLoadingState = () => {
+    if (loadingState) loadingState.classList.remove('hidden');
+    if (contentState) contentState.classList.add('hidden');
+  };
+
+  const showContentState = () => {
+    if (loadingState) loadingState.classList.add('hidden');
+    if (contentState) contentState.classList.remove('hidden');
+  };
+
   const hideModal = (persist = true) => {
     modal.classList.add('hidden');
     modal.setAttribute('aria-hidden', 'true');
@@ -40,8 +61,7 @@
   const showModal = () => {
     modal.classList.remove('hidden');
     modal.setAttribute('aria-hidden', 'false');
-    // trap focus minimally
-    nextBtn.focus();
+    showLoadingState();
   };
 
   const updateControls = () => {
@@ -104,21 +124,34 @@
         return { image, title: s.title || '', desc: s.desc || '' };
       });
       titleEl.textContent = data.title || 'Welcome';
+      
+      // Preload all images before showing content
+      const imagePromises = slides.map(slide => preloadImage(slide.image));
+      await Promise.all(imagePromises);
+      
+      // All images loaded, now show content
+      showContentState();
+      nextBtn?.focus();
       showSlide(0);
-      showModal();
     } catch (err) {
       // fallback minimal slide if manifest missing
       slides = [
         { image: '/static/manual/placeholder.png', title: 'Welcome', desc: 'Welcome to the app. Place your manual images in /static/manual and edit manifest.json.' }
       ];
+      // Preload fallback image too
+      await preloadImage(slides[0].image);
+      showContentState();
+      nextBtn?.focus();
       showSlide(0);
-      showModal();
       console.warn('User manual manifest load failed:', err);
     }
   };
 
   // Only show if cookie not set
   if (!getCookie(COOKIE_NAME)) {
+    // Show modal immediately with loading state
+    showModal();
+    // Then load manifest and preload images
     tryLoadManifest();
   }
 })();
