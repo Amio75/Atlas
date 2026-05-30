@@ -1,0 +1,17 @@
+[
+  {
+    "image": "img1.png",
+    "title": "Choose your language and basic info to get started",
+    "desc": "This brief tour will show the key areas of the app. Click Next to continue."
+  },
+  {
+    "image": "img2.png",
+    "title": "Ask Atlas basic queation(it's in early stage)",
+    "desc": "Use the composer at the bottom to send messages or upload an image for analysis."
+  },
+  {
+    "image": "img3.png",
+    "title": "upload image for prescription analysis",
+    "desc": "Atlas can analyze prescriptions and provide insights. Click on the image icon to upload your prescription for analysis."
+  }
+]
