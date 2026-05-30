@@ -917,3 +917,5 @@ if (chatMessages && chatForm && messageInput && statusLabel) {
   });
   autoResize();
 }
+
+/* user manual logic moved to static/manual/manual.js */
